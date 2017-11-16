@@ -122,8 +122,8 @@ public class CellBroadcastSettings extends PreferenceActivity {
     // India country code
     private static final String COUNTRY_INDIA = "in";
 
-    private static CheckBoxPreference mPresidentialCheckBox;
-    private static CheckBoxPreference mEnableAlertsTone;
+    private static SwitchPreference mPresidentialSwitchBox;
+    private static SwitchPreference mEnableAlertsTone;
     private static SharedPreferences prefs;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -179,7 +179,7 @@ public class CellBroadcastSettings extends PreferenceActivity {
 
             PreferenceScreen preferenceScreen = getPreferenceScreen();
 
-            mPresidentialCheckBox = (CheckBoxPreference)
+            mPresidentialSwitch = (SwitchPreference)
                     findPreference(KEY_ENABLE_PRESIDENTIAL_ALERTS);
             mExtremeSwitch = (SwitchPreference)
                     findPreference(KEY_ENABLE_CMAS_EXTREME_THREAT_ALERTS);
@@ -211,7 +211,7 @@ public class CellBroadcastSettings extends PreferenceActivity {
             if (getResources().getBoolean(
                         R.bool.config_regional_wea_alert_tone_enable)) {
                 mEnableAlertsTone =
-                    (CheckBoxPreference) findPreference(KEY_ENABLE_ALERT_TONE);
+                    (SwitchPreference) findPreference(KEY_ENABLE_ALERT_TONE);
                 mEnableAlertsTone.setChecked(prefs.getBoolean(
                         KEY_ENABLE_ALERT_TONE, true));
             } else {
@@ -383,13 +383,13 @@ public class CellBroadcastSettings extends PreferenceActivity {
                 mCmasTestSwitch.setOnPreferenceChangeListener(startConfigServiceListener);
             }
            if (getResources().getBoolean(R.bool.config_regional_wea_show_presidential_alert) &&
-                   mPresidentialCheckBox != null) {
+                   mPresidentialSwitch != null) {
                //Presidential Alerts should be always allowed.
                //Hence the option should be greyed out.
-               mPresidentialCheckBox.setChecked(true);
-               mPresidentialCheckBox.setEnabled(false);
+               mPresidentialSwitch.setChecked(true);
+               mPresidentialSwitch.setEnabled(false);
            } else {
-               preferenceScreen.removePreference(mPresidentialCheckBox);
+               preferenceScreen.removePreference(mPresidentialSwitch);
            }
 
             if (getResources().getBoolean(

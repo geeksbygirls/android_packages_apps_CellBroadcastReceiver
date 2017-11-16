@@ -41,11 +41,11 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -55,9 +55,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.internal.telephony.gsm.SmsBroadcastConfigInfo;
@@ -85,12 +85,12 @@ public class CustomCellBroadcastSettingsActivity extends TimeConsumingPreference
     private static final String FILTER_STAT = "enable";
 
     private static final String KEY_BUTTON_ADD_CHANNEL = "button_add_channel";
-    private static final String KEY_CHECKBOX_CB_Setting = "checkbox_cb_setting";
+    private static final String KEY_CHECKBOX_CB_Setting = "switch_cb_setting";
     private static final String KEY_MENU_CHANNEL_LIST = "menu_channel_list";
 
     private PreferenceCategory mFilterListPreference;
     private PreferenceScreen mAddFilterPreference;
-    private CheckBoxPreference mCBSwitchPreference;
+    private SwitchPreference mCBSwitchPreference;
     private ProgressDialog mBusyDialog;
 
     private HashMap<String, CellBroadcastChannel> mChannelFilterMap;
@@ -330,7 +330,7 @@ public class CustomCellBroadcastSettingsActivity extends TimeConsumingPreference
         mAddFilterPreference = (PreferenceScreen) findPreference(KEY_BUTTON_ADD_CHANNEL);
         mFilterListPreference = (PreferenceCategory) findPreference(KEY_MENU_CHANNEL_LIST);
 
-        mCBSwitchPreference = (CheckBoxPreference) findPreference(KEY_CHECKBOX_CB_Setting);
+        mCBSwitchPreference = (SwitchPreference) findPreference(KEY_CHECKBOX_CB_Setting);
         mCBSwitchPreference.setOnPreferenceClickListener(this);
         boolean enableEmergencyAlerts
                 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
@@ -386,8 +386,8 @@ public class CustomCellBroadcastSettingsActivity extends TimeConsumingPreference
                 = LayoutInflater.from(this).inflate(R.layout.pref_add_channel, null);
         final EditText filterName = (EditText) filterEditView.findViewById(R.id.edit_channel_name);
         final EditText filterCat = (EditText) filterEditView.findViewById(R.id.edit_channel_number);
-        final CheckBox filterState
-                = (CheckBox) filterEditView.findViewById(R.id.checkbox_channel_enable);
+        final Switch filterState
+                = (Switch) filterEditView.findViewById(R.id.checkbox_channel_enable);
         filterName.setText(oldFilter.getChannelName());
         filterCat.setText(String.valueOf(oldFilter.getChannelId()));
         filterState.setChecked(oldFilter.getChannelStatus());
@@ -442,7 +442,7 @@ public class CustomCellBroadcastSettingsActivity extends TimeConsumingPreference
         mFilterListPreference.removeAll();
 
         for (CellBroadcastChannel filter : mFilterArray) {
-            final CheckBoxPreference channel = new CheckBoxPreference(this);
+            final SwitchPreference channel = new SwitchPreference(this);
             int keyId = filter.getKeyId();
             String filterName = filter.getChannelName();
             final int channelId = filter.getChannelId();
@@ -499,7 +499,7 @@ public class CustomCellBroadcastSettingsActivity extends TimeConsumingPreference
                         .getText().toString();
                 String cat = ((EditText) filterDlg.findViewById(R.id.edit_channel_number))
                         .getText().toString();
-                boolean checked = ((CheckBox) filterDlg.findViewById(R.id.checkbox_channel_enable))
+                boolean checked = ((Switch) filterDlg.findViewById(R.id.checkbox_channel_enable))
                         .isChecked();
                 // Check input if input is valid
                 String errorText = "";
