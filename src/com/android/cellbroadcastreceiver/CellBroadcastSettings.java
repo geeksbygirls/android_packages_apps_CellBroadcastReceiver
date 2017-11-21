@@ -122,7 +122,7 @@ public class CellBroadcastSettings extends PreferenceActivity {
     // India country code
     private static final String COUNTRY_INDIA = "in";
 
-    private static SwitchPreference mPresidentialSwitchBox;
+    private static SwitchPreference mPresidentialSwitch;
     private static SwitchPreference mEnableAlertsTone;
     private static SharedPreferences prefs;
     @Override
